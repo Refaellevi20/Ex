@@ -3,7 +3,7 @@ const { Link, useParams, useNavigate } = ReactRouterDOM
 
 import { todoService } from '../services/todo.service.js'
 import { TodoList } from '../cmps/TodoList.jsx'
-import { userService } from '../services/user.service.js'
+import { userService } from '../services/user.service.js' 
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js'
 
 export function UserDetails() {
@@ -21,6 +21,7 @@ export function UserDetails() {
 
     function loadUser() {
         userService.getById(userId).then(user => {
+            if (!user.activitie) user.activitie = []
             setUser(user)
         }).catch(err => {
             console.error('Error fetching user:', err)
@@ -84,7 +85,7 @@ export function UserDetails() {
     if (!user) return <div>Loading...</div>
 
     const userP = user.prefs || { color: 'black', bgColor: 'white' }
-    const userAct = user.activitie || { txt: 'Added a Todo', at: 152387324 }
+    const userAct = user.activitie [{ txt: 'Added a Todo', at: Date.now() }]
 
 
     return (

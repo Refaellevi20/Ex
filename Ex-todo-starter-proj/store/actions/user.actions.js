@@ -40,7 +40,8 @@ export function changeUserScore(diff) {
         .then((newScore) => {
             store.dispatch({ type: SET_USER_SCORE, score: newScore })
             // const user = store.getState().loggedInUser
-            store.dispatch({ type: SET_USER, user: { ...user, score: newScore } })
+            // store.dispatch({ type: SET_USER, user: { ...user, score: newScore } })
+            // return newScore
         })
         .catch((err) => {
             console.log('user actions -> Cannot logout', err)
