@@ -30,13 +30,16 @@ function query(filterBy = {}) {
             }
 
             if (filterBy.isDone) {
-                if (filterBy.isDone === 'false') {
+                if (filterBy.isDone === 'false && true') {
+                    todos = todos.filter(todo => !todo.isDone && todo.isDone)
+                } if (filterBy.isDone === 'false') {
                     todos = todos.filter(todo => !todo.isDone)
                 } else if (filterBy.isDone === 'true') {
                     todos = todos.filter(todo => todo.isDone)
-                }}
-                return todos
-            })
+                }
+            }
+            return todos
+        })
 }
 
 function get(todoId) {

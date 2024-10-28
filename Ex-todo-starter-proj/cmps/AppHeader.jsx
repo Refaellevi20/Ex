@@ -28,22 +28,13 @@ export function AppHeader() {
             })
     }
 
-
-    function todosProgressBar() {
-        if (!todos || todos.length === 0) return '0%'
-
-        const completedTodos = todos.filter(todo => todo.isDone).length
-        const progressPercentage = (completedTodos / todos.length) * 100
-        return `${progressPercentage}%`
-    }
-
     return (
         <header className="app-header full main-layout">
             <section className="header-container">
                 <h1>React Todo App</h1>
                 {user && (
-                    <div className='Progress'>
-                        <div className='Progress-bar' style={{ width: todosProgressBar() }}></div>
+                    <div className='score'>
+                        <div className='score-change' ></div>
                     </div>
                 )}
                 {user ? (

@@ -43,7 +43,7 @@ export function UserDetails() {
         setUser({ ...user, [name]: value })
     }
 
-    function handlePrefsChange(ev) {
+    function handlePrefChange(ev) {
         const { name, value } = ev.target
         setUser({ ...user, prefs: { ...user.prefs, [name]: value } })
     }
@@ -75,9 +75,17 @@ export function UserDetails() {
         return `${minutes} minute${minutes > 1 ? 's' : ''} ago`
     }
 
+    function handleCancel (){
+        setTempUser(user)
+        setTempUserP(userP)
+        setIsEditing(false)
+    }
+
     if (!user) return <div>Loading...</div>
 
     const userP = user.prefs || { color: 'black', bgColor: 'white' }
+    const userAct = user.activitie || { txt: 'Added a Todo', at: 152387324 }
+
 
     return (
         <div>
@@ -95,11 +103,11 @@ export function UserDetails() {
                     </label>
                     <label>
                         Text Color:
-                        <input type="color" name="color" value={userP.color} onChange={handlePrefsChange} />
+                        <input type="color" name="color" value={userP.color} onChange={handlePrefChange} />
                     </label>
                     <label>
                         Background Color:
-                        <input type="color" name="bgColor" value={userP.bgColor} onChange={handlePrefsChange} />
+                        <input type="color" name="bgColor" value={userP.bgColor} onChange={handlePrefChange} />
                     </label>
                     <button onClick={saveUser}>Save</button>
                 </div>
@@ -110,10 +118,22 @@ export function UserDetails() {
                     <p>Background Color: {userP.bgColor}</p>
                 </div>
             )}
-            <h2>Todos Created by {user.fullname} (Done)</h2>
+            <h2>Todos Created by {user.fullname} = all the dons here</h2>
             <TodoList todos={userTodos} showActions={false} onToggleTodo={() => { }} onRemoveTodo={() => { }} />
             <h2>Activities</h2>
-          
+            <ul>
+            {userAct && userAct.length > 0 ? (
+                userAct.map((activity, idx) => (
+                    <li key={idx}>
+                    {formatTimeDifference(activity.txt) && (activity.at)}
+                    </li>
+            ))
+         ) : (
+                <li>No activities yet.</li>
+            )}
+
+            </ul>
+
         </div>
     )
 }

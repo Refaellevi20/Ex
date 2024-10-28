@@ -6,7 +6,9 @@ export function TodoPreview({ todo, onToggleTodo }) {
             </h2>
             <h4>Todo Importance: {todo.importance}</h4>
             <img src={`../assets/img/${'todo'}.png`} alt="todo image" />
-            <img src={`../assets/img/todo.png`} alt="todo image" />
+            {/* <img src={`../assets/img/todo.png`} alt="todo image" /> */}
+            {/* <img src={`../assets/img/${'todo'}.png`} alt="vv" /> */}
+            <img src={`../assets/img/`} alt="" />
         </article>
     )
 }

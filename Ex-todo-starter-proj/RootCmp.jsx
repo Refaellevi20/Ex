@@ -29,10 +29,10 @@ export function RootCmp() {
                     <main>
                         <Routes>
                             <Route path="/" element={<Home />} />
-                            <Route path="/about" element={<About />}>
+                            {/* <Route path="/about" element={<About />}>
                                 <Route path="team" element={<AboutTeam />} />
                                 <Route path="vision" element={<AboutVision />} />
-                            </Route>
+                            </Route> */}
                             <Route path="/todo/:todoId" element={<TodoDetails />} />
                             <Route path="/todo/edit/:todoId" element={<TodoEdit />} />
                             <Route path="/todo/edit" element={<TodoEdit />} />

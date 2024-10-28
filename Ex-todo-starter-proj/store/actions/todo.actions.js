@@ -25,20 +25,20 @@ export function removeTodo(todoId) {
             store.dispatch({ type: REMOVE_TODO, todoId })
         })
         .catch(err => {
-            console.log('todo actions -> Cannot remove todo:', err)
+            console.log('todo actions => Cannot remove todo:', err)
             throw err
         })
 }
 
 export function saveTodo(todo) {
-    const type = todo._id ? UPDATE_todo : ADD_TODO
+    const type = todo._id ? UPDATE_TODO : ADD_TODO
     return todoService.save(todo)
         .then(savedTodo => {
             store.dispatch({ type, todo: savedTodo })
             return savedTodo
         })
         .catch(err => {
-            console.log('todo actions -> Cannot save todo:', err)
+            console.log('todo actions => Cannot save todo:', err)
             throw err
         })
 }

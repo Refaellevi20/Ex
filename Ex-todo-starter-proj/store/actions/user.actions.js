@@ -1,5 +1,5 @@
 import { userService } from "../../services/user.service.js"
-import { CLEAR_CART, SET_USER, SET_USER_SCORE, TOGGLE_CART_IS_SHOWN, store } from "../store.js"
+import { SET_USER, SET_USER_SCORE,store } from "../store.js"
 
 
 export function login(credentials) {
@@ -39,8 +39,8 @@ export function changeUserScore(diff) {
     return userService.updateScore(+diff)
         .then((newScore) => {
             store.dispatch({ type: SET_USER_SCORE, score: newScore })
-            store.dispatch({ type: SET_USER, user: { ...user, score: newScore } });
-
+            // const user = store.getState().loggedInUser
+            store.dispatch({ type: SET_USER, user: { ...user, score: newScore } })
         })
         .catch((err) => {
             console.log('user actions -> Cannot logout', err)
