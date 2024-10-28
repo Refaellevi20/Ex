@@ -14,10 +14,11 @@ export const todoService = {
     getFilterFromSearchParams,
     getImportanceStats,
 }
+const PAGE_SIZE = 3
 // For Debug (easy access from console):
 window.cs = todoService
 
-function query(filterBy = {}) {
+function query(filterBy = {},sortBy = { type: '' , dir: 1 }) {
     return storageService.query(TODO_KEY)
         .then(todos => {
             if (filterBy.txt) {
@@ -37,6 +38,24 @@ function query(filterBy = {}) {
                 } else if (filterBy.isDone === 'true') {
                     todos = todos.filter(todo => todo.isDone)
                 }
+            }
+            //*SortBy
+            if (sortBy.type === 'createdAt') {
+                todos.sort((a, b) => (+sortBy.dir) * (a.createdAt - b.createdAt))
+            } else if (sortBy.type === 'importance') {
+                todos.sort((a, b) => (+sortBy.dir) * (a.importance - b.importance))
+            } else if (sortBy.type === 'txt') {
+                todos.sort((a, b) => {
+                    const txtA = a.txt || ''
+                    const txtB = b.txt || ''
+                    return sortBy.dir * txtA.localeCompare(txtB)
+                })
+            }
+            
+            if (filterBy.pageIdx !== undefined) {
+                const pageIdx = +filterBy.pageIdx
+                const startIdx = pageIdx * PAGE_SIZE
+                todos = todos.slice(startIdx, startIdx + PAGE_SIZE)
             }
             return todos
         })

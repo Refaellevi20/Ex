@@ -1,11 +1,11 @@
 import { todoService } from "../../services/todo.service.js" 
 import { ADD_TODO, REMOVE_TODO, SET_TODOS, SET_IS_LOADING, UPDATE_TODO, store } from "../store.js"
 
-export function loadTodos(filterBy) {
+export function loadTodos(filterBy,sortBy) {
 
     store.dispatch({ type: SET_IS_LOADING, isLoading: true })
 
-    return todoService.query(filterBy)
+    return todoService.query(filterBy,sortBy)
         .then(todos => {
             store.dispatch({ type: SET_TODOS, todos })
         })

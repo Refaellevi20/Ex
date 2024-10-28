@@ -1,8 +1,11 @@
+import { TodoSort } from "./SortBy.jsx"
+
 const { useState, useEffect } = React
 
-export function TodoFilter({ filterBy, onSetFilterBy }) {
+export function TodoFilter({ filterBy, onSetFilterBy,sortBy,onSetSort,setSortBy  }) {
 
     const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy })
+    // const [sortBy, setSortBy] = useState({ type: '', dir: 1 })
 
     //* n
 
@@ -37,6 +40,10 @@ export function TodoFilter({ filterBy, onSetFilterBy }) {
         onSetFilterBy(filterByToEdit)
     }
 
+    // function onSetSort(newSortBy) {
+    //     setSortBy(newSortBy)
+    // }
+
     const { txt, importance,isDone  } = filterByToEdit
     return (
         <section className="todo-filter">
@@ -62,6 +69,8 @@ export function TodoFilter({ filterBy, onSetFilterBy }) {
                 </select>
                 <button hidden>Set Filter</button>
             </form>
+            <TodoSort onSetSort={onSetSort} sortBy={sortBy} className="bug-sort" />
+
         </section>
     )
 }
