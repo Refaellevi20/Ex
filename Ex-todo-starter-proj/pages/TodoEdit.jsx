@@ -66,6 +66,8 @@ export function TodoEdit() {
                 console.log('err:', err)
             })
             .finally(() =>{
+                console.log('pass the test')
+                
             })
     }
 
