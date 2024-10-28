@@ -1,6 +1,6 @@
 import { TodoSort } from "./SortBy.jsx"
 
-const { useState, useEffect } = React
+const { useState, useEffect,useRef } = React
 
 export function TodoFilter({ filterBy, onSetFilterBy,sortBy,onSetSort,setSortBy  }) {
 
@@ -13,6 +13,8 @@ export function TodoFilter({ filterBy, onSetFilterBy,sortBy,onSetSort,setSortBy 
         // Notify parent
         onSetFilterBy(filterByToEdit)
     }, [filterByToEdit,onSetFilterBy])
+
+
 
     function handleChange({ target }) {
         const field = target.name

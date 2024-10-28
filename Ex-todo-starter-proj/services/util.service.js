@@ -63,9 +63,10 @@ function animateCSS(el, animation='bounce') {
 function debounce(func, timeout = 300) {
     let timer
     return (...args) => {
+        const context = this
         clearTimeout(timer)
         timer = setTimeout(() => {
-            func.apply(this, args)
+            func.apply(context, args)
         }, timeout)
     }
 }

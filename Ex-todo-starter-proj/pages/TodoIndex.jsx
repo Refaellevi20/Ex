@@ -5,13 +5,14 @@ import { todoService } from "../services/todo.service.js"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 import { loadTodos, removeTodo, saveTodo } from '../store/actions/todo.actions.js'
 import { TodoSort } from "../cmps/SortBy.jsx"
+import { utilService } from "../services/util.service.js"
 
-const { useState, useEffect } = React
+const { useState, useEffect,useRef } = React
 const { Link, useSearchParams } = ReactRouterDOM
 const { useSelector, useDispatch } = ReactRedux
 
 
-export function TodoIndex() {
+export function TodoIndex({onSetFilterBy}) {
     const [sortBy, setSortBy] = useState({ type: '', dir: 1 })
 
     // const [todos, setTodos] = useState(null)
@@ -24,6 +25,8 @@ export function TodoIndex() {
 
     const defaultFilter = todoService.getFilterFromSearchParams(searchParams)
     const [filterBy, setFilterBy] = useState(defaultFilter)
+    // const debouncedFilterBy = useRef(utilService.debounce(onSetFilterBy, 500))
+    // const debouncedSetFilterBy = useRef(utilService.debounce(onSetFilterBy, 500)).current
 
     const dispatch = useDispatch()
 
@@ -89,6 +92,12 @@ export function TodoIndex() {
                 showErrorMsg('Cannot toggle todo ' + todo.id)
             })
     }
+
+    // useEffect(() => {
+    //     console.log("Filter changed:", filterBy)
+    //     debouncedSetFilterBy(filterBy)
+    // }, [filterBy,debouncedSetFilterBy])
+
 
     if (!todos) return <div>Loading...</div>
     return (
