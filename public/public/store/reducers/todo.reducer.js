@@ -52,6 +52,11 @@ export function todoReducer(state = initialState, cmd = {}) {
                 ...state,
                 todos: state.todos.map(todo => todo._id === cmd.todo._id ? cmd.todo : todo)
             }
+            case SET_FILTER_BY:
+                return {
+                    ...state,
+                    filterBy: { ...state.filterBy, ...cmd.filterBy }
+                }
         case SET_IS_LOADING:
             return {
                 ...state,

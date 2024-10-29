@@ -1,7 +1,7 @@
 import { todoService } from "../services/todo.service.js"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 import { changeUserScore } from "../store/actions/user.actions.js" 
-
+import { saveTodo } from '../store/actions/todo.actions.js'
 const { useSelector, useDispatch } = ReactRedux
 
 const { useState, useEffect } = React
@@ -51,7 +51,7 @@ export function TodoEdit() {
 
     function onSaveTodo(ev) {
         ev.preventDefault()
-        todoService.save(todoToEdit)
+        saveTodo(todoToEdit)
             .then((savedTodo) => {
               
                 navigate('/todo')

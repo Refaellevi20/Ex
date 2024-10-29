@@ -1,6 +1,5 @@
 import { userService } from "../../services/user.service.js" 
 
-userService
 
 // User
 export const SET_USER = 'SET_USER'

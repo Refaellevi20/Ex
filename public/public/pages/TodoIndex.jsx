@@ -6,11 +6,11 @@ import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 import { loadTodos, removeTodo, saveTodo,removeTodoOptimistic } from '../store/actions/todo.actions.js'
 import { TodoSort } from "../cmps/SortBy.jsx"
 import { utilService } from "../services/util.service.js"
+// import { SET_FILTER_BY } from "../store/reducers/todo.reducer.js"
 
 const { useState, useEffect,useRef } = React
 const { Link, useSearchParams } = ReactRouterDOM
 const { useSelector, useDispatch } = ReactRedux
-
 
 export function TodoIndex({onSetFilterBy}) {
     const [sortBy, setSortBy] = useState({ type: '', dir: 1 })
@@ -25,6 +25,7 @@ export function TodoIndex({onSetFilterBy}) {
 
     const defaultFilter = todoService.getFilterFromSearchParams(searchParams)
     const [filterBy, setFilterBy] = useState(defaultFilter)
+    // const filterBy = useSelector(storeState => storeState.carModule.filterBy)
     // const debouncedFilterBy = useRef(utilService.debounce(onSetFilterBy, 500))
     // const debouncedSetFilterBy = useRef(utilService.debounce(onSetFilterBy, 500)).current
 
@@ -99,6 +100,10 @@ export function TodoIndex({onSetFilterBy}) {
     //     debouncedSetFilterBy(filterBy)
     // }, [filterBy,debouncedSetFilterBy])
 
+    //! global but no need 
+    // function onSetFilterBy(filterBy) {
+    //     dispatch({ type: SET_FILTER_BY, filterBy })
+    // }
 
     if (!todos) return <div>Loading...</div>
     return (

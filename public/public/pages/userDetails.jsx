@@ -1,11 +1,14 @@
 const { useState, useEffect } = React
 const { Link, useParams, useNavigate } = ReactRouterDOM
+const { useSelector, } = ReactRedux
 
 import { todoService } from '../services/todo.service.js'
 import { TodoList } from '../cmps/TodoList.jsx'
-import { userService } from '../services/user.service.js' 
+import { userService } from '../services/user.service.js'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js'
-// import { ActivityList } from '../cmps/ActivityList.jsx'
+import { ActivityList } from '../cmps/ActivityList.jsx'
+import { utilService } from '../services/util.service.js'
+
 
 export function UserDetails() {
     const { userId } = useParams()
@@ -13,20 +16,24 @@ export function UserDetails() {
     const [userTodos, setUserTodos] = useState([])
     const [isEditing, setIsEditing] = useState(false)
     const navigate = useNavigate()
-    const loggedInUser = userService.getLoggedinUser()
+    // const loggedInUser = userService.getLoggedinUser()
+    // const [userToEdit, setUserToEdit] = useState(null)
+    const loggedInUser = useSelector((storeState) => storeState.userModule.loggedInUser)
 
     useEffect(() => {
-        loadUser()
+        if (loggedInUser) loadUser()
+        else navigate('/')
+        // loadUser()
         loadUserTodos()
-    }, [userId])
+    }, [userId,loggedInUser])
 
-    function loadUser() {
-        userService.getById(userId).then(user => {
-            if (!user.activitie) user.activitie = []
-            setUser(user)
+    function loadUser( ) {
+        userService.getById(userId).then(chooseUser  => {
+            console.log(chooseUser)
+            setUser(chooseUser )
         }).catch(err => {
-            console.error('Error fetching user:', err)
-            showErrorMsg('Cannot fetch user details')
+            console.error('Error  user:', err)
+            showErrorMsg('Cannot  user details')
         })
     }
 
@@ -63,38 +70,19 @@ export function UserDetails() {
             })
     }
 
-    function formatTimeDifference(timestamp) {
-        const now = Date.now()
-        const diff = now - timestamp
-        const months = Math.floor(days / 30)
-        const minutes = Math.floor(diff / 60000)
-        const hours = Math.floor(minutes / 60)
-        const days = Math.floor(hours / 24)
-        //! to know if to use months or month
-        if (months > 0) return `${months} month${months > 1 ? 's' : ''} ago`
-        if (days > 0) return `${days} day${days > 1 ? 's' : ''} ago`;
-        if (hours > 0) return `${hours} hour${hours > 1 ? 's' : ''} ago`
-        return `${minutes} minute${minutes > 1 ? 's' : ''} ago`
-    }
-
-    function handleCancel (){
-        setTempUser(user)
-        setTempUserP(userP)
-        setIsEditing(false)
-    }
-
     if (!user) return <div>Loading...</div>
 
     const userP = user.prefs || { color: 'black', bgColor: 'white' }
-    const userAct = user.activitie [{ txt: 'Added a Todo', at: Date.now() }]
+    // const userAct = user.activitie [{ txt: 'Added a Todo', at: Date.now() }]
 
-    // function getActivityTime(activity) {
-    //     const { at } = activity
-    //     return utilService.getFormattedTime(at)
-    // }
+    function getActivityTime(activity) {
+        const { at } = activity
+        return utilService.getFormattedTime(at)
+    }
 
-    // if (!userToEdit || !loggedinUser) return null
-    // const { activities } = loggedinUser
+    if (!loggedInUser || !user) return <div>'no user</div>
+    const { activities = [] } = user
+    console.log(activities);
 
     return (
         <div>
@@ -130,22 +118,11 @@ export function UserDetails() {
             <h2>Todos Created by {user.fullname} = all the dons here</h2>
             <TodoList todos={userTodos} showActions={false} onToggleTodo={() => { }} onRemoveTodo={() => { }} />
             <h2>Activities</h2>
-            <ul>
-            {userAct && userAct.length > 0 ? (
-                userAct.map((activity, idx) => (
-                    <li key={idx}>
-                    {formatTimeDifference(activity.txt) && (activity.at)}
-                    </li>
-            ))
-         ) : (
-                <li>No activities yet.</li>
-            )}
 
-            </ul>
-            {/* <ActivityList
+            <ActivityList
                 activities={activities}
                 getActivityTime={getActivityTime}
-            /> */}
+            />
         </div>
     )
 }

@@ -12,4 +12,22 @@
     justify-content: space-around;
     align-items: center;
     background-color: var(--clr1bg);
+    position: relative;
 }
+
+/* .todo-list button {
+    display: none;
+    margin: 5px; 
+}
+
+.todo-list li:hover button {
+    display: inline-block; 
+    opacity: 1; 
+    transition: opacity 0.3s; 
+}
+
+.todo-list button {
+    background: none;
+    border: none; 
+    cursor: pointer; 
+} */
