@@ -58,7 +58,6 @@ export function TodoEdit() {
                 if (todoToEdit.isDone) {
                     dispatch(changeUserScore(10))
                 }
-
                 showSuccessMsg(`Todo Saved (id: ${savedTodo._id})`)
             })
             .catch(err => {

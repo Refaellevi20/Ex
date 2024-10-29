@@ -1,5 +1,6 @@
 import { todoService } from "../../services/todo.service.js" 
-import { ADD_TODO, REMOVE_TODO, SET_TODOS, SET_IS_LOADING, UPDATE_TODO, store } from "../store.js"
+import { ADD_TODO,REMOVE_TODO, SET_TODOS, SET_IS_LOADING, UPDATE_TODO, REMOVE_TODO_UNDO} from "../reducers/todo.reducer.js"
+import {store } from "../store.js"
 
 export function loadTodos(filterBy,sortBy) {
 
@@ -24,8 +25,20 @@ export function removeTodo(todoId) {
         .then(() => {
             store.dispatch({ type: REMOVE_TODO, todoId })
         })
+        // .then(() => addActivity('Removed the Todo: ' + todoId))
         .catch(err => {
             console.log('todo actions => Cannot remove todo:', err)
+            throw err
+        })
+}
+
+export function removeTodoOptimistic(todoId) {
+    store.dispatch({ type: REMOVE_TODO, todoId })
+
+    return todoService.remove(todoId)
+        .catch(err => {
+            store.dispatch({ type: REMOVE_TODO_UNDO, todoId })
+            console.log('todo action -> Cannot remove todo', err)
             throw err
         })
 }
@@ -37,6 +50,11 @@ export function saveTodo(todo) {
             store.dispatch({ type, todo: savedTodo })
             return savedTodo
         })
+        // .then(res => {
+        //     const actionName = (todo._id) ? 'Updated' : 'Added'
+        //     return addActivity(`${actionName} a Todo: ` + todo.txt)
+        //         .then(() => res)
+        // })
         .catch(err => {
             console.log('todo actions => Cannot save todo:', err)
             throw err

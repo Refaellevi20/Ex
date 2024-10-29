@@ -3,7 +3,7 @@ import { TodoList } from "../cmps/TodoList.jsx"
 import { DataTable } from "../cmps/data-table/DataTable.jsx"
 import { todoService } from "../services/todo.service.js"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
-import { loadTodos, removeTodo, saveTodo } from '../store/actions/todo.actions.js'
+import { loadTodos, removeTodo, saveTodo,removeTodoOptimistic } from '../store/actions/todo.actions.js'
 import { TodoSort } from "../cmps/SortBy.jsx"
 import { utilService } from "../services/util.service.js"
 
@@ -20,8 +20,8 @@ export function TodoIndex({onSetFilterBy}) {
     // Special hook for accessing search-params:
     const [searchParams, setSearchParams] = useSearchParams()
 
-    const todos = useSelector(storeState => storeState.todos)
-    const isLoading = useSelector(storeState => storeState.isLoading)
+    const todos = useSelector(storeState => storeState.todoModule.todos)
+    const isLoading = useSelector(storeState => storeState.todoModule.isLoading)
 
     const defaultFilter = todoService.getFilterFromSearchParams(searchParams)
     const [filterBy, setFilterBy] = useState(defaultFilter)
@@ -45,7 +45,8 @@ export function TodoIndex({onSetFilterBy}) {
 
     function onRemoveTodo(todoId) {
         if (confirm('Sure you want to delete?')) {
-        removeTodo(todoId)
+        // removeTodo(todoId)
+        removeTodoOptimistic(todoId)
             .then(() => showSuccessMsg(`Todo removed`)) 
             .catch(err => {
                 console.log('err:', err)

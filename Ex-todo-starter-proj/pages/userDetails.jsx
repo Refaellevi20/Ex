@@ -5,6 +5,7 @@ import { todoService } from '../services/todo.service.js'
 import { TodoList } from '../cmps/TodoList.jsx'
 import { userService } from '../services/user.service.js' 
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js'
+// import { ActivityList } from '../cmps/ActivityList.jsx'
 
 export function UserDetails() {
     const { userId } = useParams()
@@ -87,6 +88,13 @@ export function UserDetails() {
     const userP = user.prefs || { color: 'black', bgColor: 'white' }
     const userAct = user.activitie [{ txt: 'Added a Todo', at: Date.now() }]
 
+    // function getActivityTime(activity) {
+    //     const { at } = activity
+    //     return utilService.getFormattedTime(at)
+    // }
+
+    // if (!userToEdit || !loggedinUser) return null
+    // const { activities } = loggedinUser
 
     return (
         <div>
@@ -134,7 +142,10 @@ export function UserDetails() {
             )}
 
             </ul>
-
+            {/* <ActivityList
+                activities={activities}
+                getActivityTime={getActivityTime}
+            /> */}
         </div>
     )
 }

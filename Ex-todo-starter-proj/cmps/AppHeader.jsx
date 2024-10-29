@@ -14,8 +14,8 @@ export function AppHeader() {
     const navigate = useNavigate()
     // const [user, setUser] = useState(userService.getLoggedinUser())
 
-    const user = useSelector(storeState => storeState.loggedInUser)
-    const todos = useSelector(storeState => storeState.todos)
+    const user = useSelector(storeState => storeState.userModule.loggedInUser)
+    const todos = useSelector(storeState => storeState.todoModule.todos)
 
     function onLogout() {
         logout()
